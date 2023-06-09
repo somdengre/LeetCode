@@ -1,20 +1,22 @@
-// The API isBadVersion is defined for you.
-// bool isBadVersion(int version);
-
 class Solution {
 public:
-    int firstBadVersion(int n) {
-        int s=1,e=n;
-        while(s<=e){
-            int mid=s+(e-s)/2;
-
-            if(isBadVersion(mid)){
-                e=mid-1;
-            }
-            else if(!isBadVersion(mid)){
-                 s=mid+1;
+    int searchInsert(vector<int>& nums, int target) {
+        int l=0;
+        int h= nums.size()-1;
+        int ans=-1;
+        
+        while(l<=h){
+            int m= l+(h-l)/2;
+            
+            if(nums[m]==target){
+                return m;
+            }else if(nums[m]>target){
+                h=m-1;
+            }else{
+                l=m+1;
             }
         }
-        return s;
+        
+       return l;
     }
 };
