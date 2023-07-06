@@ -30,10 +30,15 @@ class Solution
     public:
     void display(Node *head)
     {
-      while(head!=NULL){
-          cout<<head -> data<<" ";
-          head = head-> next;
+        if(head ==NULL){
+            return;
+        }
+      if(head != NULL){
+          cout << head -> data << " "; 
       }
+      head = head-> next;
+      
+      display(head);
     }
 };
 
