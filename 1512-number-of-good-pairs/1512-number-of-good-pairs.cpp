@@ -1,15 +1,15 @@
 class Solution {
 public:
     int numIdenticalPairs(vector<int>& nums) {
-        int z = nums.size();
-        int q=0;
-        for(int i=0;i<z;i++){
-            for(int j=i+1;j<z;j++){
-                if((nums[i] == nums[j]) && (i!=j)){
-                    q++;
+        int ans=0;
+        
+        for(int i = 0;i<nums.size();i++){
+            for(int j = 0;j<nums.size();j++){
+                if(nums[i]==nums[j] && i<j){
+                    ans++;
                 }
             }
         }
-        return q;
+        return ans;
     }
 };
