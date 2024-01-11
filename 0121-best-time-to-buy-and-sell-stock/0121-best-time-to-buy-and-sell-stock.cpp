@@ -5,11 +5,10 @@ public:
         int profit = 0;
         
         for(int i = 0;i<a.size();i++){
-            int cost = a[i] - mini;
+            int cost = a[i]-mini;
             profit = max(profit,cost);
-            mini = min(mini,a[i]);
+            mini = min(a[i],mini);
         }
-        
         return profit;
     }
 };
