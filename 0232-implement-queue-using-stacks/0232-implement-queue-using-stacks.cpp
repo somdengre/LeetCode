@@ -1,5 +1,3 @@
-
-
 class MyQueue {
 public:
     stack<int> inputstack;
