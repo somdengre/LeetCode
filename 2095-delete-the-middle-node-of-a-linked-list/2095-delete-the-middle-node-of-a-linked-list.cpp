@@ -14,22 +14,26 @@ public:
         if(head->next == NULL){
             return NULL;
         }
-        ListNode *temp = head;
-        ListNode *prev = head;
-        
-        int c=0;
-        while(temp != NULL){
-            temp = temp -> next;
-            c++;
+        if(head->next->next == NULL){
+            head->next = NULL;
+            return head;
         }
-        c/=2;
-        
-        while(c!=1){
-            prev = prev->next;
-            c--;
+        ListNode* temp = head;
+        int n = 0;
+        while(temp){
+            n++;
+            temp = temp->next;
         }
         
-        prev -> next = prev ->next->next;
+        int p = n/2;
+        p = p-1;
+        temp = head;
+        while(p){
+            temp = temp->next;
+            p--;
+        }
+        
+        temp->next = temp->next->next;
         
         return head;
     }
