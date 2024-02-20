@@ -1,20 +1,19 @@
 class Solution {
 public:
     int missingNumber(vector<int>& nums) {
+        unordered_map<int,int>mp;
         int n = nums.size();
-        vector<int>v(n+1, -1);
         for(int i = 0;i<nums.size();i++){
-            v[nums[i]] = 1;
+            mp[nums[i]]++;
         }
-        int ans = 0;
-        for(int i = 0;i<v.size();i++){
-            if(v[i] == -1){
-                ans = i;
-                break;
+        
+        for(int i = 0;i<=n;i++){
+            if(mp.find(i) == mp.end()){
+                return i;
             }
         }
-        return ans;
         
         
+        return 0;
     }
 };
