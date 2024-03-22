@@ -11,47 +11,42 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        stack<int>st;
-        if(head == NULL || head->next == NULL)return true;
-        ListNode* temp = head;
-        ListNode* t1 = head;
-        int n = 0;
-        while(temp){
-            n++;
-            temp = temp->next;
+         ListNode *p = head;
+        stack<int> sq;
+        stack<int> sp;
+        int r;
+        
+        while( p){
+            sq.push(p->val);
+            p = p->next;
         }
-        int p=n/2;
-        while(p){
-            st.push(t1->val);
-            t1 = t1->next;
-            p--;
-        }
-        p = n/2;
-        if(n%2 == 0){
-            while(p){
-                if(t1->val!= st.top()){
-                    return false;
-                }
-                t1 = t1->next;
-                st.pop();
-                p--;
+        
+        r= sq.size();
+        
+        if(r%2==0){
+            r=r/2;
+            while(r){
+                sp.push(sq.top());
+                sq.pop();
+                r--;
             }
-            
         }else{
-            t1 = t1->next;
-            while(p){
-                if(t1->val!= st.top()){
-                    return false;
-                }
-                t1 = t1->next;
-                st.pop();
-                p--;
+            r=r/2;
+            while(r){
+                sp.push(sq.top());
+                sq.pop();
+                r--;
             }
+            sp.push(sq.top());
+            
         }
         
-        return true;
-        
-        
+        if(sq==sp){
+            return true;
+        }
+        else{
+            return false;
+        }
         
     }
 };
