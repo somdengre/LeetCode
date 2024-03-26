@@ -1,14 +1,19 @@
 class Solution {
 public:
     int firstMissingPositive(vector<int>& nums) {
-        set<int> st;
-        for(int i = 0;i<nums.size();i++)st.insert(nums[i]);
-        int i = 1;
-        while(i<=st.size()){
-            if(st.find(i) != st.end() )i++;
-            else return i;
+        int maxi = 0;
+        unordered_map<int,int>mp;
+        for(int i = 0;i<nums.size();i++){
+            maxi = max(maxi,nums[i]);
+            mp[nums[i]]++;
         }
-        return i;
+        
+        for(int i = 1;i<=maxi;i++){
+            if(mp.find(i) == mp.end()){
+                return i;
+            }
+        }
+        
+        return maxi+1;
     }
 };
-
