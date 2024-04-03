@@ -1,6 +1,6 @@
 
 class Solution {
-     int dr1[4]={1,-1,0,0};
+    int dr1[4]={1,-1,0,0};
     int dr2[4]={0,0,1,-1};
 public:
     bool f(vector<vector<char>>& board,int& row,int& col,int i,int j,string& word,int ind,int n){
