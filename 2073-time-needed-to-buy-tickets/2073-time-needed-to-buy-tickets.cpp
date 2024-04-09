@@ -1,12 +1,7 @@
 class Solution {
 public:
     int timeRequiredToBuy(vector<int>& nums, int k) {
-//         queue<int>q;
-        
-//         for(int i = 0;i< nums.size();i++){
-//             q.push(nums[i]);
-//         }
-        
+
         int ans = 0;
         
         while(nums[k] != 0){
