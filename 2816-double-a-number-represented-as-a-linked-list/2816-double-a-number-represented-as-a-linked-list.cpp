@@ -39,9 +39,5 @@ public:
             temp = temp->next;
         }
         return toReturn->next;
-        
-        
     }
 };
-
-
