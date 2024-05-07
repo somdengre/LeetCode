@@ -11,30 +11,29 @@
 class Solution {
 public:
     ListNode* doubleIt(ListNode* head) {
-        ListNode *p = head;
-        vector<int> ans;
+        vector<int>v;
+        ListNode* p = head;
         
         while(p){
-            ans.push_back(p->val);
-            p = p-> next;
+            v.push_back(p->val);
+            p = p->next;
         }
+        reverse(v.begin(),v.end());
         
-        reverse(ans.begin(), ans.end());
         int carry = 0;
-        for(int i =0; i<ans.size();i++){
-            int current = (ans[i]*2 + carry)%10;
-            carry = (ans[i]*2 + carry)/10;
-            ans[i] = current;
-            
+        for(int i = 0;i<v.size();i++){
+            int temp = (v[i]*2+carry)%10;
+            carry = (v[i]*2+carry)/10;
+            v[i] = temp;
         }
         
-        if(carry !=0){
-            ans.push_back(carry);
+        if(carry){
+            v.push_back(carry);
         }
         ListNode *temp = new ListNode(-1);
         ListNode *toReturn = temp;
-        for(int i = ans.size() - 1; i >= 0 ; i--){
-            ListNode * curr = new ListNode(ans[i]);
+        for(int i = v.size() - 1; i >= 0 ; i--){
+            ListNode * curr = new ListNode(v[i]);
             temp->next = curr;
             temp = temp->next;
         }
