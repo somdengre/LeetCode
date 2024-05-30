@@ -2,34 +2,31 @@ class Solution {
 public:
     int f(int i,vector<int>nums,vector<int>&dp){
         if(i == 0)return nums[0];
+        if(i == 1)return max(nums[0],nums[1]);
+        if(dp[i]!= -1)return dp[i];
         
-        if(dp[i] != -1)return dp[i];
+        int p = nums[i] + f(i-2,nums,dp);
+        int np = f(i-1,nums,dp);
         
-        int pick = nums[i];
-        if(i>1)pick+=f(i-2,nums,dp);
-        
-        int npick = f(i-1,nums,dp);
-        
-        return dp[i] = max(pick,npick);
+        return dp[i] =  max(p,np);
     }
     int rob(vector<int>& nums) {
         int n = nums.size();
-        vector<int>v1,v2;
-        if(nums.size() == 1)return nums[0];
+        vector<int>nums1,nums2;
+        vector<int>dp1(n,-1);
+        vector<int>dp2(n,-1);
+        if(n == 1)return nums[0];
         for(int i = 0;i<n;i++){
-            if(i!=0){
-                v1.push_back(nums[i]);
+            if(i != 0){
+                nums1.push_back(nums[i]);   
             }
             if(i!=n-1){
-                v2.push_back(nums[i]);
+                nums2.push_back(nums[i]);
             }
-            
-            
         }
-        vector<int>dp1(v1.size()+1,-1);
-        vector<int>dp2(v2.size()+1,-1);
-            
-            
-        return max(f(n-2,v1,dp1),f(n-2,v2,dp2));
+        
+        return max(f(n-2,nums1,dp1),f(n-2,nums2,dp2));
+        
+        
     }
 };
