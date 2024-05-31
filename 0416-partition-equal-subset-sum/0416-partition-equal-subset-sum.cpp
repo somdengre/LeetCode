@@ -1,29 +1,33 @@
 class Solution {
 public:
-    bool f(int i, vector<int>&nums,int s,vector<vector<int>>&dp){
-        if(s == 0)return true;
-        if(i == 0)return s == nums[0];
-        if(dp[i][s]!= -1)return dp[i][s];
+    int f(int i,int k,vector<int>&nums,vector<vector<int>>&dp){
+        if(k == 0)return true;
+        if(i == 0)return k == nums[0];
         
-        bool pick = false;
-        if(nums[i]<=s){
-            pick = f(i-1, nums,s-nums[i],dp);
-        }
-        bool npick = f(i-1,nums,s,dp);
+        if(dp[i][k] != -1)return dp[i][k];
         
-        return dp[i][s] = pick | npick;
+        int np = f(i-1,k,nums,dp);
+        int p = 0;
+        if(nums[i] <= k )p = f(i-1,k-nums[i],nums,dp);
         
-        
+        return dp[i][k] = p|np;
     }
     bool canPartition(vector<int>& nums) {
+        int n = nums.size();
+        int sum = 0;
         
-        int s = 0;
-        for(int i = 0;i<nums.size();i++){
-            s+=nums[i];
+        for(int i = 0;i<n;i++){
+            sum+=nums[i];
         }
-        if(s%2 != 0)return false;
-        s/=2;
-        vector<vector<int>>dp(nums.size(), vector<int>(s+1,-1));
-        return f(nums.size()-1, nums, s,dp);
+        
+        if(sum%2 != 0){
+            return false;
+        }
+        
+        sum/=2;
+        
+        vector<vector<int>>dp(n,vector<int>(sum+1,-1));
+        return f(n-1,sum,nums,dp);
+        
     }
 };
