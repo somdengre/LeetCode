@@ -1,40 +1,41 @@
 class Solution {
 public:
-    
-//     int f(vector<vector<int>>&nums,int i,int j,int n,vector<vector<int>>&dp){
-//         if(i == 0 && j < nums.size() && j >= 0)return nums[i][j];
-       
-//         if(j<0 || j>=n)return 1e9;
-//          if(dp[i][j] != INT_MAX)return dp[i][j];
-//         int d = nums[i][j] + f(nums,i-1,j,n,dp);
-//         int l =  nums[i][j] + f(nums,i-1,j-1,n,dp);
-//         int r =  nums[i][j] + f(nums,i-1,j+1,n,dp);
+//     int f(int i,int j,vector<vector<int>>&nums,vector<vector<int>>&dp,int n){
+//         if(i<0 || j<0 || i>=n || j>=n)return 1e9;
+//         if(i == 0)return nums[i][j];
         
-//         return dp[i][j] = min(d,min(l,r));
+//         if(dp[i][j] != -1)return dp[i][j];
+        
+//         int down = nums[i][j] + f(i-1,j,nums,dp,n);
+//         int left = nums[i][j] + f(i-1,j-1,nums,dp,n);
+//         int right = nums[i][j] + f(i-1,j+1,nums,dp,n);
+        
+//         return dp[i][j] = min(down,min(left,right));
+         
 //     }
     int minFallingPathSum(vector<vector<int>>& nums) {
-        int mini = INT_MAX;
-        int n= nums.size();
-        vector<vector<int>>dp(n,vector<int>(n,0));
-        for(int j = 0;j<n;j++){
-            dp[0][j] = nums[0][j];
+        int n = nums.size();
+        vector<vector<int>>dp(n,vector<int>(n,-1));
+        int ans = INT_MAX;
+        for(int i = 0;i<n;i++){
+            dp[0][i] = nums[0][i] ;
         }
         
         for(int i = 1;i<n;i++){
-            for(int j = 0;j<n;j++){
-                int d = nums[i][j] + dp[i-1][j];
-                int l = 1e9;
-                int r = 1e9;
-                if(j-1>=0) l =  nums[i][j] + dp[i-1][j-1];
-                if(j+1<n) r =  nums[i][j] + dp[i-1][j+1];
-        
-                dp[i][j] = min(d,min(l,r));
+            for(int  j = 0;j<n;j++){
+                int down = nums[i][j] + dp[i-1][j];
+                int left = 1e9;
+                int right = 1e9;
+                if(j-1>=0)left = nums[i][j] + dp[i-1][j-1];
+                if(j+1<n)right = nums[i][j] + dp[i-1][j+1];
+                
+                dp[i][j] = min(down,min(left,right));
             }
         }
-       
-        for(int i = 0;i<n;i++){
-            mini = min(mini,dp[n-1][i]);
+        for(int i = 0;i<nums[n-1].size();i++){
+            ans = min(ans,dp[n-1][i]);
         }
-        return mini;
+
+        return ans;
     }
 };
