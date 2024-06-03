@@ -1,28 +1,33 @@
 class Solution {
 public:
-    vector<int> dp, succ, ans;
-    vector<int> largestDivisibleSubset(vector<int>& nums) {
-        sort(begin(nums), end(nums));
-		// initially dp[i]=1 since we can always form subset of size=1 starting at i. 
-		// succ[i]= ∞  because we havent found any successors for any subset yet
-        dp.resize(size(nums), 1), succ.resize(size(nums), INT_MAX);
-        for(int i = 0; i < size(nums); i++)  solve(nums, i);
-		// reconstruct starting from index where largest subset starts till the end. succ[i] gives next element after each index
-        for(int i = distance(begin(dp), max_element(begin(dp), end(dp))); i < size(nums); i = succ[i]) 
-            ans.push_back(nums[i]);
-        return ans;
-    }
-    int solve(vector<int>& nums, int start) {
-        if(start >= size(nums)) return 0;
-        if(dp[start] != 1) return dp[start];   // initially all dp[i]=1. But if it's updated to store largest subset size, just return it.
-        for(int next = start+1; next < size(nums); next++) {
-            if(nums[next] % nums[start]) continue;
-            int size = solve(nums, next);
-            if(dp[start] < size + 1) {   // if choosing subset start at nums[next] gives bigger subset at start, choose it
-                dp[start] = size + 1;    // update dp[i] to store size of largest subset
-                succ[start] = next;      // next element at dp[i] which yields largest subset
-            }
-        }
-        return dp[start];
+    vector<int> largestDivisibleSubset(vector<int>& arr) {
+        int n = arr.size();
+        vector<int>dp(n,1),hash(n);
+        sort(arr.begin(),arr.end());
+       int maxi = 1;
+       int lastIndex = 0;
+       
+       for(int i = 0;i<n;i++){
+           hash[i] = i;
+           for(int prev = 0;prev<i;prev++){
+               if(arr[i]%arr[prev] == 0 && 1 + dp[prev] > dp[i] ){
+                   dp[i] = 1 + dp[prev];
+                   hash[i] = prev;
+               }
+           }
+           if(dp[i] > maxi){
+               maxi = dp[i];
+               lastIndex = i;
+           }
+       }
+       vector<int>lis;
+       lis.push_back(arr[lastIndex]);
+       int ind = 1;
+       while(hash[lastIndex]!=lastIndex){
+           lastIndex = hash[lastIndex];
+           lis.push_back(arr[lastIndex]);
+       }
+       reverse(lis.begin(),lis.end());
+       return lis;
     }
 };
