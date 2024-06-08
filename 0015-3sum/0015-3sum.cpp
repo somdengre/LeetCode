@@ -1,30 +1,35 @@
 class Solution {
 public:
-    
-    
     vector<vector<int>> threeSum(vector<int>& nums) {
+        int n =nums.size();
+        vector<vector<int>>ans;
         
-        vector<vector<int>> ans;
-        int n = nums.size();
         sort(nums.begin(),nums.end());
         
-        for(int j=0;j<n;j++){
-            if(j!=0 && nums[j] == nums[j-1]){continue;};
-            int t = 0-nums[j];
-            unordered_map<int,int> mp;
-            for(int i=j+1;i<n;i++){
-                if(mp.find(t-nums[i]) != mp.end()){
-                    vector<int> tempTrip = { nums[j], nums[i], t-nums[i]};
-                    sort(tempTrip.begin(), tempTrip.end());
-                    ans.push_back(tempTrip);
-                    while(i+1< n && nums[i+1] == nums[i]) { i++; }
+        for(int i = 0;i<n;i++){
+            if(i>0 && nums[i] == nums[i-1])continue;
+            int j = i+1;
+            int k = n-1;
+            
+            while(j<k){
+                int sum = nums[i]+nums[j]+nums[k];
+                if(sum<0){
+                    j++;
+                }else if(sum>0){
+                    k--;
+                }else{
+                    vector<int>temp{nums[i],nums[j],nums[k]};
+                    ans.push_back(temp);
+                    j++;
+                    k--;
+                    
+                    while(j<k && nums[j-1] == nums[j])j++;
+                    while(j<k && nums[k+1] == nums[k])k--;
                 }
-                mp[nums[i]] = i;
             }
+            
         }
-        return ans;
         
+        return ans;
     }
 };
-
-
