@@ -1,17 +1,16 @@
 class Solution {
 public:
+    int f(int low,int high,vector<int>&nums,int k){
+        int mid = (low+high)/2;
+        if(low>high)return -1;
+        
+        if(nums[mid] == k)return mid;
+        else if(nums[mid] < k)return f(mid+1,high,nums,k);
+        else return f(low,mid-1,nums,k);
+    }
     int search(vector<int>& nums, int k) {
         int n = nums.size();
-        int low = 0;
-        int high = n-1;
         
-        while(low<=high){
-            int mid = (low+high)/2;
-            if(nums[mid] == k)return mid;
-            else if(nums[mid] < k)low = mid+1;
-            else high = mid-1;
-        }
-        
-        return -1;
+        return f(0,n-1,nums,k);
     }
 };
