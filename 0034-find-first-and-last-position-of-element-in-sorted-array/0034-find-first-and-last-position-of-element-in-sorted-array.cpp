@@ -1,55 +1,50 @@
 class Solution {
 public:
-    vector<int> searchRange(vector<int>& nums, int k) {
-       
-        vector<int> ans;
-        int s = 0;
-        int res = -1;
-        int e = nums.size()-1;
-        
-        while(s<=e){
-            int m = s+(e-s)/2;
-            
-            if(nums[m] == k){
-                res = m;
-                e = m-1;
-            }else if(k<nums[m]){
-                e = m-1;
-            }
-            else{
-                s= m+1;
+    int lb(vector<int>& nums, int x, int n) {
+        int low = 0;
+        int high = n - 1;
+        int lw = -1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (nums[mid] >= x) {
+                lw = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
             }
         }
-        ans.push_back(res);
-        s = 0;
-        res = -1;
-        e = nums.size()-1;
-        
-        
-        
-        
-        while(s<=e){
-            int m = s+(e-s)/2;
-            
-            if(nums[m] == k){
-                res = m;
-                s = m+1;
-            }else if(k<nums[m]){
-                e = m-1;
-            }
-            else{
-                s= m+1;
+        return lw;
+    }
+
+    int ub(vector<int>& nums, int x, int n) {
+        int low = 0;
+        int high = n - 1;
+        int lw = -1;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            if (nums[mid] > x) {
+                lw = mid;
+                high = mid - 1;
+            } else {
+                low = mid + 1;
             }
         }
-        
-        ans.push_back(res);
-        
-        return ans;
-        
-        
-        
-        
-        
-        
+        return lw;
+    }
+
+    vector<int> searchRange(vector<int>& nums, int x) {
+        int n = nums.size();
+        if (n == 0) return {-1, -1};
+
+        int l = lb(nums, x, n);
+        int u = ub(nums, x, n);
+
+        // If l is -1 or nums[l] != x, then x is not present
+        if (l == -1 || nums[l] != x) return {-1, -1};
+
+        // If u is -1, it means there is no element greater than x, so we take the last index
+        if (u == -1) u = n;
+
+        return {l, u - 1};
     }
 };
