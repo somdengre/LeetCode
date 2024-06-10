@@ -1,22 +1,24 @@
 class Solution {
 public:
-    int searchInsert(vector<int>& nums, int target) {
-        int l=0;
-        int h= nums.size()-1;
-        int ans=-1;
-        
-        while(l<=h){
-            int m= l+(h-l)/2;
+    int searchInsert(vector<int>& nums, int k) {
+        int n = nums.size();
+        int low = 0;
+        int high = n-1;
+        int ans = -1;
+        while(low<=high){
+            int mid = (low+high)/2;
             
-            if(nums[m]==target){
-                return m;
-            }else if(nums[m]>target){
-                h=m-1;
-            }else{
-                l=m+1;
+            if(nums[mid]>=k){
+                ans = mid;
+                high  = mid-1;
+            }else {
+                low = mid+1;
             }
         }
         
-       return l;
+        if(ans == -1){
+            return n;
+        }
+        else return ans;
     }
 };
