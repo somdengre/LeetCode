@@ -1,49 +1,37 @@
 class Solution {
 public:
+    int INF = -100000000;
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        int n = nums1.size();
-        int m = nums2.size();
-        int t = n+m;
-        int ind2 = t/2;
-        int ind1 = (t/2)-1;
-        int i = 0;
-        int j = 0;
-        int cnt = 0;
-        int ele1 = -1;
-        int ele2 = -1;
-        
-        while(i<n && j<m){
-            if(nums1[i] < nums2[j]){
-                if(cnt == ind1)ele1 = nums1[i];
-                if(cnt == ind2)ele2 = nums1[i];
-                cnt++;
-                i++;
-            }else{
-                if(cnt == ind1)ele1 = nums2[j];
-                if(cnt == ind2)ele2 = nums2[j];
-                cnt++;
-                j++;
-            }
-        } 
-        
-        while(i<n){
-            if(cnt == ind1)ele1 = nums1[i];
-            if(cnt == ind2)ele2 = nums1[i];
-            cnt++;
-            i++;
+        if(nums1.size() > nums2.size()){
+            return findMedianSortedArrays(nums2, nums1);
+        }
+
+        int l1 = nums1.size(), l2 = nums2.size();
+        int low = 0, high = l1, partition1, partition2;
+        int maxL1, maxL2, minR1, minR2;
+        float ret = 0.0;
+
+        while(low <= high){
+            partition1 = (low+high)/2;
+            partition2 = ((l1+l2+1)/2) - partition1;
+
+            maxL1 = (partition1 == 0) ? INF : nums1[partition1 - 1];
+            minR1 = (partition1 == l1) ? -INF : nums1[partition1];
+            maxL2 = (partition2 == 0) ? INF : nums2[partition2 - 1]; 
+            minR2 = (partition2 == l2) ? -INF : nums2[partition2];
+
+            //cout<<partition1<<" "<<partition2<<" "<<maxL1<<" "<<minR1<<" "<<maxL2<<" "<<minR2<<endl;
+            if(maxL1 <= minR2 && maxL2 <= minR1){
+                if((l1+l2)%2 == 0) ret = (max(maxL1, maxL2) + min(minR1, minR2))*1.0/ 2.0;
+                else ret = max(maxL1, maxL2);
+
+                return ret;
+            } else if(maxL1 > minR2) 
+                high = partition1 - 1;
+            else 
+                low = partition1 + 1;        
         }
         
-        while(j<m){
-            if(cnt == ind1)ele1 = nums2[j];
-            if(cnt == ind2)ele2 = nums2[j];
-            cnt++;
-            j++;
-        }
-        
-        if((t)%2 == 1){
-            return ele2;
-        }else {
-            return (double)((double)(ele2 + ele1))/2.0;
-        }
+        return ret;
     }
 };
