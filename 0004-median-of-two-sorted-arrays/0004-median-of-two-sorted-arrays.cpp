@@ -3,34 +3,47 @@ public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         int n = nums1.size();
         int m = nums2.size();
-        vector<int>ans;
+        int t = n+m;
+        int ind2 = t/2;
+        int ind1 = (t/2)-1;
         int i = 0;
         int j = 0;
+        int cnt = 0;
+        int ele1 = -1;
+        int ele2 = -1;
         
         while(i<n && j<m){
             if(nums1[i] < nums2[j]){
-                ans.push_back(nums1[i]);
+                if(cnt == ind1)ele1 = nums1[i];
+                if(cnt == ind2)ele2 = nums1[i];
+                cnt++;
                 i++;
             }else{
-                ans.push_back(nums2[j]);
+                if(cnt == ind1)ele1 = nums2[j];
+                if(cnt == ind2)ele2 = nums2[j];
+                cnt++;
                 j++;
             }
         } 
         
         while(i<n){
-            ans.push_back(nums1[i]);
+            if(cnt == ind1)ele1 = nums1[i];
+            if(cnt == ind2)ele2 = nums1[i];
+            cnt++;
             i++;
         }
         
         while(j<m){
-            ans.push_back(nums2[j]);
+            if(cnt == ind1)ele1 = nums2[j];
+            if(cnt == ind2)ele2 = nums2[j];
+            cnt++;
             j++;
         }
         
-        if((n+m)%2 == 1){
-            return ans[(n+m)/2];
+        if((t)%2 == 1){
+            return ele2;
         }else {
-            return (double)((double)(ans[(n+m)/2]) + (double)(ans[((n+m)/2) -1]))/2.0;
+            return (double)((double)(ele2 + ele1))/2.0;
         }
     }
 };
