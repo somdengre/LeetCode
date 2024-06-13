@@ -1,29 +1,13 @@
 class Solution {
 public:
-    
-    bool bin(vector<int> & arr, int l,int h,int t){
-        while(l<=h){
-            int m = l+(h-l)/2;
-            
-            if(arr[m]==t){
-                return true;
-            }else if(arr[m]>t){
-                h = m-1;
-            }else{
-                l = m+1;
-            }
-        }
-        return false;
+    bool searchMatrix(vector<vector<int>>& nums, int k) {
         
+        int n = nums.size();
+        int m = nums[0].size();
         
-    };
-    bool searchMatrix(vector<vector<int>>& mat, int x) {
-        bool ans = false;
-        int h = mat[0].size()-1;
-        for(int i=0;i< mat.size();i++){
-            ans = bin(mat[i],0,h,x);
-            if(ans == true){
-                return true;
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                if(nums[i][j] == k)return true;
             }
         }
         
