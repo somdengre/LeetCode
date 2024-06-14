@@ -2,6 +2,16 @@
 
 class Solution {
 public:
+    int f(int i,string &s,long long &ans,int sign){
+        if(i >=s.length())return (int)ans;
+        
+        if(s[i] < '0' || s[i] > '9')return (int)ans;
+        
+        ans = ans*10 + s[i]-'0';
+        if(sign * ans > INT_MAX)return INT_MAX;
+        if(sign*ans < INT_MIN)return INT_MIN; 
+        return f(i+1,s,ans,sign);
+    }
     int myAtoi(string s) {
         int n = s.length();
         int i = 0;
@@ -19,20 +29,7 @@ public:
             i++;
         }
         
-        // Parse digits and handle overflow/underflow
-        while (i < n && s[i] >= '0' && s[i] <= '9') {
-            ans = ans * 10 + (s[i] - '0');
-            // Check for overflow
-            if (sign * ans > INT_MAX) {
-                return INT_MAX;
-            }
-            // Check for underflow
-            if (sign * ans < INT_MIN) {
-                return INT_MIN;
-            }
-            i++;
-        }
-        
+        ans = f(i,s,ans,sign);
         return (int)(sign * ans);
     }
 };
