@@ -1,36 +1,38 @@
+
+
 class Solution {
 public:
     int myAtoi(string s) {
-        if(s.length()==0) return 0;
-        int i=0;
+        int n = s.length();
+        int i = 0;
+        long long ans = 0;
+        int sign = 1;
         
-        
-        while(i<s.length() && s[i]==' ') i++;
-        
-       
-        s=s.substr(i);
-        int sign=+1;
-        long ans=0;
-        
-        if(s[0]=='-') sign = -1;
-        
-        int maxi=INT_MAX, mini=INT_MIN;
-
-        
-        i = (s[0] == '+' || s[0] == '-') ? 1 : 0;
-        
-        
-        while(i < s.length()){
-            
-            if(s[0] == ' ' || !isdigit(s[i])) break;
-           
-            ans = ans*10+s[i] - '0';
-            
-            if(sign == -1 && -1*ans < mini) return mini;
-            if(sign == +1 && ans > maxi) return maxi;
-            
+        // Skip leading whitespaces
+        while (i < n && s[i] == ' ') {
             i++;
         }
-        return (int)(sign*ans);
+        
+        // Check for sign
+        if (i < n && (s[i] == '-' || s[i] == '+')) {
+            sign = (s[i] == '-') ? -1 : 1;
+            i++;
+        }
+        
+        // Parse digits and handle overflow/underflow
+        while (i < n && s[i] >= '0' && s[i] <= '9') {
+            ans = ans * 10 + (s[i] - '0');
+            // Check for overflow
+            if (sign * ans > INT_MAX) {
+                return INT_MAX;
+            }
+            // Check for underflow
+            if (sign * ans < INT_MIN) {
+                return INT_MIN;
+            }
+            i++;
+        }
+        
+        return (int)(sign * ans);
     }
 };
