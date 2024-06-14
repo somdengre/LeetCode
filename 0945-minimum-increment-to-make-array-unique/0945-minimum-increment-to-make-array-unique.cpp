@@ -1,19 +1,17 @@
 class Solution {
 public:
     int minIncrementForUnique(vector<int>& nums) {
-        map<int,int>mp;
         int n = nums.size();
+        sort(nums.begin(),nums.end());
         int cnt = 0;
-        for(int i = 0;i<n;i++){
-            mp[nums[i]]++;
-        }
-        
-        for(auto it:mp){
-            int p = it.second-1;
-            if(p>0){
-                mp[it.first + 1]+=p;
+        for(int i = 0;i<n-1;i++){
+            if(nums[i] < nums[i+1]){
+                continue;
+            }else{
+                int p = nums[i]-nums[i+1]+1;
+                cnt+=p;
+                nums[i+1] += p;
             }
-            cnt+=p;
         }
         
         return cnt;
