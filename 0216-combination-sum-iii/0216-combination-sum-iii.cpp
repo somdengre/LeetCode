@@ -1,28 +1,28 @@
 class Solution {
 public:
-    vector<vector<int>> ans;
-    int sum = 0;
-    void dfs(vector<int>& cur, int k, int n, int idx)
-    {
-        if (cur.size() == k and sum == n)
-        {
-            ans.push_back(cur);
+    void f(int i,int n,int k,vector<vector<int>>&ans,vector<int>&temp,int&sum){
+        if(temp.size() == k){
+            if(sum == n){
+                ans.push_back(temp);
+                return;
+            }
             return;
         }
-        else if (cur.size() == k and sum > n) return;
-        for (int i = idx; i <= 9; i++)
-        {
-            cur.push_back(i);
-            sum += i;
-            dfs(cur, k, n, i + 1);
-            cur.pop_back();
-            sum -= i;
+        
+        for(int ind = i;ind<=9;ind++){
+            sum+=ind;
+            temp.push_back(ind);
+            f(ind+1,n,k,ans,temp,sum);
+            temp.pop_back();
+            sum-=ind;
         }
+        
     }
     vector<vector<int>> combinationSum3(int k, int n) {
-        vector<int> cur;
-        dfs(cur, k, n, 1);
-
+        vector<vector<int>>ans;
+        vector<int>temp;
+        int sum = 0;
+        f(1,n,k,ans,temp,sum);
         return ans;
     }
 };
