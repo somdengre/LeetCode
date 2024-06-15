@@ -1,42 +1,33 @@
 class Solution {
 public:
-    int n;
-    vector<vector<int>> dp;
-
-    //judge whether s[l..r] is palindrome storing into dp[l][r]
-    inline bool isPalindrome(string& s, int l, int r){
-        if (dp[l][r] != -1){
-            return dp[l][r]==1;
-        }  
-        while (l < r){
-            if (s[l] != s[r]) 
-                return dp[l][r] = 0;     
-            l++;
-            r--;       
+    bool isPalindrome(string&s,int start,int end){
+        while(start<=end){
+            if(s[start] != s[end]){
+                return false;
+            }
+            start++;
+            end--;
         }
-        return dp[l][r] = 1;
+        return true;
     }
-
-    // backtracking to find the valid partitions for s[start:]
-    vector<vector<string>> ans;
-    inline void dfs(string &s, int start, vector<string>& valids) {
-        if (start >= n)
-            ans.push_back(valids);
-        for (int end = start; end < n; end++) {
-            if (isPalindrome(s, start, end)) {
-                valids.push_back(s.substr(start, end - start + 1));
-                dfs(s, end+1, valids);
-                valids.pop_back();//backtracking
+    void f(int i,string&s, vector<vector<string>>&ans,vector<string>&temp){
+        if(i == s.length()){
+            ans.push_back(temp);
+            return;
+        }
+        
+        for(int ind = i;ind<s.length();ind++){
+            if(isPalindrome(s,i,ind)){
+                temp.push_back(s.substr(i,ind-i+1));
+                f(ind+1,s,ans,temp);
+                temp.pop_back();
             }
         }
     }
-
     vector<vector<string>> partition(string s) {
-        n = s.size();
-        if (n == 1) return {{s}};
-        dp.assign(n, vector<int>(n, -1));
-        vector<string> valids;
-        dfs(s, 0, valids);
+        vector<vector<string>>ans;
+        vector<string>temp;
+        f(0,s,ans,temp);
         return ans;
     }
 };
