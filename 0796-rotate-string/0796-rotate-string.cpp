@@ -1,21 +1,17 @@
 class Solution {
 public:
-    bool rotateString(string s, string t) {
-        if(s.length() != t.length())return false;
+    bool rotateString(string s, string goal) {
+        if(s == goal)return true;
+        if(s.length()!= goal.length())return false;
+        string rotate = "";
         int n = s.length();
-        for(int i = 0;i<n;i++){
-            int p = 0;
-            if(s[i] == t[0]){
-                for(int j = 0;j<n;j++){
-                    if(s[(i+j)%n] == t[p]){
-                        p++;
-                    }else{
-                        break;
-                    }
-                }
-                if(p == n){
-                    return true;
-                }
+        for(int i = 0;i<n-1;i++){
+            rotate.append(s,i+1,n-i+1);
+            rotate.append(s,0,i+1);
+            if(rotate == goal){
+                return true;
+            }else{
+                rotate = "";
             }
         }
         
