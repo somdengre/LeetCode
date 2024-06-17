@@ -1,45 +1,34 @@
-class Solution
-{
+class Solution {
 public:
-    string longestPalindrome(string s)
-    {
-        int n = s.size();
-        if (n == 0)
-            return "";
-
-        // dp[i][j] will be 'true' if the string from index i to j is a palindrome.
-        bool dp[n][n];
-
-        //Initialize with false
-
-        memset(dp, 0, sizeof(dp));
-
-        //Every Single character is palindrome
-        for (int i = 0; i < n; i++)
-            dp[i][i] = true;
-
-        string ans = "";
-        ans += s[0];
-
-        for (int i = n - 1; i >= 0; i--)
-        {
-            for (int j = i + 1; j < n; j++)
-            {
-                if (s[i] == s[j])
-                {
-                    //If it is of two character OR if its susbtring is palindrome.
-                    if (j - i == 1 || dp[i + 1][j - 1])
-                    {
-                        //Then it will also a palindrome substring
-                        dp[i][j] = true;
-
-                        //Check for Longest Palindrome substring
-                        if (ans.size() < j - i + 1)
-                            ans = s.substr(i, j - i + 1);
+    bool solve(int i,int j,string&s,vector<vector<int>>&dp){
+        if(i>=j)return 1;
+        
+        if(dp[i][j] != -1)return dp[i][j];
+        
+        if(s[i] == s[j]){
+            return dp[i][j] = solve(i+1,j-1,s,dp);
+        }else{
+            return dp[i][j] = 0;
+        }
+    }
+    string longestPalindrome(string s) {
+        int n = s.length();
+        vector<vector<int>>dp(n,vector<int>(n,-1));
+        
+        if(n<=1)return s;
+        int len = -1;
+        int start = 0;
+        for(int i = 0;i<n;i++){
+            for(int j = i;j<n;j++){
+                if(solve(i,j,s,dp)){
+                    if(j-i+1 > len){
+                        start = i;
+                        len = j-i+1;
                     }
                 }
             }
         }
-        return ans;
+        
+        return s.substr(start,len);
     }
 };
