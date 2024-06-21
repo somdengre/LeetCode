@@ -1,73 +1,53 @@
 class Solution {
 public:
-     vector<int> prev(vector<int> v,int n){
-         vector<int> ans(n);
-         stack<int> s;
-         s.push(-1);
-         for(int i=0;i<n;i++){
-        int curr=v[i];
-        while(s.top()!=-1 && v[s.top()]>=curr){
-            s.pop();
-        }
-        
-         ans[i]=s.top();
-         s.push(i);
-         }
-         return ans;
-     }
-
-     vector<int> next(vector<int> v,int n){
-         vector<int> ans(n);
-         stack<int> s;
-           s.push(-1);
-         for(int i=n-1;i>=0;i--){
-        int curr=v[i];
-        while(s.top()!=-1 && v[s.top()]>=curr){
-            s.pop();
-        }
-        
-         ans[i]=s.top();
-         s.push(i);
-         }
-         return ans;
-     }
-
-    int maxHisto(vector<int> v){
-        int nt=v.size();
-        vector<int> p(nt);
-        p=prev(v,nt);
-        vector<int> n(nt);
-        n=next(v,nt);
-        int sum=INT_MIN;
-        for(int i=0;i<nt;i++){
-          if(n[i]==-1){
-              n[i]=nt;
-          }
-        int a= v[i]*(n[i]-p[i]-1);
-        sum=max(a,sum);
-        }
-        return sum;
-    }
-    int maximalRectangle(vector<vector<char>>& matrix) {
-       vector<vector<int>> v(matrix.size());
-       for(int i=0;i<matrix.size();i++){
-           for(int j=0;j<matrix[i].size();j++){
-               if(matrix[i][j]=='0')
-       v[i].push_back(0);
-  else v[i].push_back(1);
-           }
-       } 
-       int first= maxHisto(v[0]);
-     for(int i=1;i<v.size();i++){
-        for(int j=0;j<v[i].size();j++){
-            if(v[i][j]!=0){
-                v[i][j]=v[i-1][j]+v[i][j];
+     int largestRectangleArea(vector<int>& nums) {
+        int n = nums.size();
+        vector<int>left(n,0),right(n,0);
+        stack<int>st;
+        for(int i = 0;i<n;i++){
+            while (!st.empty() && nums[st.top()] >= nums[i]) {
+                st.pop();
             }
-            else v[i][j]=0;
+            left[i] = st.empty() ? 0 : st.top()+1;
+            st.push(i);
         }
-        int a=  maxHisto(v[i]);
-        first= max(first,a);
-     }
-return first;
+        
+        while(!st.empty()){
+            st.pop();
+        }
+        for(int i = n-1;i>=0;i--){
+            while (!st.empty() && nums[st.top()] >= nums[i]) {
+                st.pop();
+            }
+            right[i] = st.empty() ? n-1 : st.top()-1;
+            st.push(i);
+        }
+        
+        int ans = -1;
+        
+        for(int i = 0;i<n;i++){
+            int a = (right[i]-left[i]+1) * nums[i];
+            ans = max(ans,a);
+        }
+        
+        return ans;
+    }
+    int maximalRectangle(vector<vector<char>>& nums) {
+        
+        int maxArea = 0;
+        vector<int>height(nums[0].size(),0);
+        for(int i = 0;i<nums.size();i++){
+            for(int j = 0;j<nums[0].size();j++){
+                if(nums[i][j] == '1'){
+                    height[j]++;
+                }else{
+                    height[j] = 0;
+                }
+            }
+            int area = largestRectangleArea(height);
+            maxArea = max(area,maxArea);
+        }
+        
+        return maxArea;
     }
 };
