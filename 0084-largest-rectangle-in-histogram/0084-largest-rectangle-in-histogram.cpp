@@ -1,70 +1,35 @@
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& heights) {
-        stack<pair<int,int>> s;
-        stack<pair<int,int>> ss;
-        vector<int> right;
-         vector<int> left;
-        int index=heights.size();
-        for(int i=heights.size()-1; i>=0; i--){
-            if(s.size()==0){
-                right.push_back(index);
+    int largestRectangleArea(vector<int>& nums) {
+        int n = nums.size();
+        vector<int>left(n,0),right(n,0);
+        stack<int>st;
+        for(int i = 0;i<n;i++){
+            while (!st.empty() && nums[st.top()] >= nums[i]) {
+                st.pop();
             }
-            else if(s.size()>0 && s.top().first<heights[i]){
-                right.push_back(s.top().second);
-            }
-            else if(s.size()>0  && s.top().first>=heights[i]){
-                while(s.size()>0  && s.top().first>=heights[i]){
-                    s.pop();
-                }
-                if(s.size()==0){
-                    right.push_back(index);
-                }
-                else{
-                    right.push_back(s.top().second);
-        
-                }
-            }
-            s.push({heights[i],i});
-
+            left[i] = st.empty() ? 0 : st.top()+1;
+            st.push(i);
         }
-        reverse(right.begin(),right.end());
-
-       
-
-
-          for(int i=0; i<heights.size(); i++){
-            if(ss.size()==0){
-                left.push_back(-1);
-            }
-            else if(ss.size()>0 && ss.top().first<heights[i]){
-                left.push_back(ss.top().second);
-            }
-            else if(ss.size()>0  && ss.top().first>=heights[i]){
-                while(ss.size()>0  && ss.top().first>=heights[i]){
-                    ss.pop();
-                }
-                if(ss.size()==0){
-                    left.push_back(-1);
-                }
-                else{
-                    left.push_back(ss.top().second);
         
-                }
+        while(!st.empty()){
+            st.pop();
+        }
+        for(int i = n-1;i>=0;i--){
+            while (!st.empty() && nums[st.top()] >= nums[i]) {
+                st.pop();
             }
-            ss.push({heights[i],i});
-
+            right[i] = st.empty() ? n-1 : st.top()-1;
+            st.push(i);
         }
-
-
-       vector<int> ans;
         
-
-        for(int i=0; i<heights.size(); i++){
-          int z=heights[i]*(right[i]-left[i]-1);
-            ans.push_back(z);
+        int ans = -1;
+        
+        for(int i = 0;i<n;i++){
+            int a = (right[i]-left[i]+1) * nums[i];
+            ans = max(ans,a);
         }
-        sort(ans.begin(), ans.end());
-        return ans[heights.size()-1];
+        
+        return ans;
     }
 };
