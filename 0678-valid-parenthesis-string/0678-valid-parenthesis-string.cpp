@@ -1,33 +1,26 @@
 class Solution {
 public:
     bool checkValidString(string s) {
-        stack<char>st1,st2;
+        int n = s.length();
+        int mini = 0;
+        int maxi = 0;
         
-        for(int i = 0;i<s.length();i++ ){
+        for(int i = 0;i<n;i++){
             if(s[i] == '('){
-                st1.push(i);
-            }else if(s[i] == '*'){
-                st2.push(i);
+                maxi++;
+                mini++;
+            }else if(s[i] == ')'){
+                mini--;
+                maxi--;
             }else{
-                if(st1.empty() && st2.empty()){
-                    return false;
-                }else if(!st1.empty()){
-                    st1.pop();
-                }else{
-                    st2.pop();
-                }
+                mini--;
+                maxi++;
             }
+            
+            if(mini<0)mini = 0;
+            if(maxi<0)return false;
         }
         
-        while(!st1.empty()){
-            if(st2.empty())return false;
-            if(st1.top()>st2.top())return false;
-            st1.pop();
-            st2.pop();
-        }
-        
-        return true;
-        
-        
+        return mini == 0;
     }
 };
