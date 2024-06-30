@@ -4,11 +4,12 @@ public:
         
         int n = start^goal;
         int cnt = 0;
-        while(n>0){
-            if(n & 1)cnt++;
-            n>>=1;
+        
+        for(int i = 0;i<31;i++){
+            if(n&(1<<i))cnt++;
         }
         
         return cnt;
     }
 };
+
