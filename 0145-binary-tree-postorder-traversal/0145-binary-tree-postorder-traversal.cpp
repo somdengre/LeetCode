@@ -11,17 +11,27 @@
  */
 class Solution {
 public:
-    void f(TreeNode *root,vector<int>&ans){
-        if(root == NULL)return;
-        
-        if(root->left)f(root->left,ans);
-        if(root->right)f(root->right,ans);
-        ans.push_back(root->val);
-    }
     vector<int> postorderTraversal(TreeNode* root) {
-        vector<int>ans;
         
-        f(root,ans);
+        vector<int>ans;
+        if(root == NULL)return ans;
+        stack<TreeNode*>s1,s2;
+        TreeNode* node= root;
+        s1.push(root);
+        
+        while(!s1.empty()){
+            node = s1.top();
+            s1.pop();
+            s2.push(node);
+            if(node->left)s1.push(node->left);
+            if(node->right)s1.push(node->right);
+        }
+        
+        while(!s2.empty()){
+            ans.push_back(s2.top()->val);
+            s2.pop();
+        }
+        
         return ans;
     }
 };
