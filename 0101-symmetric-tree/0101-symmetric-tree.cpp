@@ -11,16 +11,16 @@
  */
 class Solution {
 public:
-    bool f(TreeNode* left,TreeNode* right){
-        if(left == NULL || right == NULL)return left == right;
-        if(left->val != right->val){
-            return false;
-        }
-        return f(left->left,right->right) && f(left->right,right->left);
+    bool helper(TreeNode* root1,TreeNode* root2){
+        if(root1 == NULL || root2 == NULL)return (root1 == root2);
+        
+        if(root1->val != root2->val)return false;
+        
+        return helper(root1->left,root2->right) && helper(root1->right,root2->left);
     }
     bool isSymmetric(TreeNode* root) {
         if(root == NULL)return true;
+        return helper(root->left,root->right);
         
-        return f(root->left,root->right);
     }
 };
