@@ -11,22 +11,21 @@
  */
 class Solution {
 public:
-    
-    int kthSmallest(TreeNode* root, int k) {
-        int ans = 0;
-        int c = 0;
-        traverse(root,k,ans,c);
-        return ans;
-    }
-    
-    void traverse(TreeNode* root,int k,int &ans,int &c){
-        if(root == NULL)return ;
-        traverse(root->left,k,ans,c);
+    void f(TreeNode* root,int &ans,int &c,int k){
+        if(root == NULL)return;
+        
+        f(root->left,ans,c,k);
         c++;
         if(c == k){
             ans = root->val;
             return;
         }
-        traverse(root->right,k,ans,c);
+        f(root->right,ans,c,k);
+    }
+    int kthSmallest(TreeNode* root, int k) {
+        int ans = -1;
+        int c = 0;
+        f(root,ans,c,k);
+        return ans;
     }
 };
