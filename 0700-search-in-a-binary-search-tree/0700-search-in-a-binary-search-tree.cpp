@@ -15,11 +15,11 @@ public:
         TreeNode* ans = NULL;
         while(root){
             if(root->val > val){
-                if(root->left)root = root->left;
-                else return NULL;
+                root = root->left;
+                
             }else if(root->val < val){
-                if(root->right)root = root->right;
-                else return NULL;
+                root = root->right;
+                
             }else{
                 ans = root;
                 break;
