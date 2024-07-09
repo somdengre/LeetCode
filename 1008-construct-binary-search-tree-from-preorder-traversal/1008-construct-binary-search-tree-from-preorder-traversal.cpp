@@ -11,18 +11,18 @@
  */
 class Solution {
 public:
+    TreeNode* f(vector<int>&nums,int ub,int&i){
+        if(i == nums.size() || nums[i] > ub){
+            return NULL;
+        }
+        TreeNode* root = new TreeNode(nums[i]);
+        i++;
+        root->left = f(nums,root->val,i);
+        root->right = f(nums,ub,i);
+        return root;
+    }
     TreeNode* bstFromPreorder(vector<int>& nums) {
         int i = 0;
-        return build(nums,i,INT_MAX);
-    }
-    
-    TreeNode* build(vector<int>&nums,int& i,int bound){
-        if(i == nums.size() || nums[i]>bound)return NULL;
-        TreeNode* root = new TreeNode(nums[i++]);
-        root->left = build(nums,i,root->val);
-        root->right = build(nums,i,bound);
-        
-        return root;
-        
+        return f(nums,INT_MAX,i);
     }
 };
