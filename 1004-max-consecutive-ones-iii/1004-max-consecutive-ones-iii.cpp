@@ -9,15 +9,15 @@ public:
             if(nums[r] == 0){
                 zero++;
             }
+            
+            while(zero>k){
+                if(nums[l] == 0){
+                    zero--;
+                }
+                l++;
+            }
             if(zero<=k){
                 maxi = max(maxi,r-l+1);
-            }else{
-                while(zero>k){
-                    if(nums[l] == 0){
-                        zero--;
-                    }
-                    l++;
-                }
             }
             r++;
             
