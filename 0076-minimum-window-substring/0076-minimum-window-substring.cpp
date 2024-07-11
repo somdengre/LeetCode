@@ -1,35 +1,36 @@
 class Solution {
 public:
-    std::string minWindow(std::string s, std::string t) {
-        if (s.empty() || t.empty() || s.length() < t.length()) {
-            return "";
+    string minWindow(string s, string t) {
+        unordered_map<char,int>mp;
+        int n = s.length();
+        int m = t.length();
+        int l =0,r=0,cnt=0,mini = 1e9,starti = -1;
+        string ans = "";
+        for(int i = 0;i<m;i++){
+            mp[t[i]]++;
         }
-
-        std::vector<int> map(128, 0);
-        int count = t.length();
-        int start = 0, end = 0, minLen = INT_MAX, startIndex = 0;
-        /// UPVOTE !
-        for (char c : t) {
-            map[c]++;
-        }
-
-        while (end < s.length()) {
-            if (map[s[end++]]-- > 0) {
-                count--;
-            }
-
-            while (count == 0) {
-                if (end - start < minLen) {
-                    startIndex = start;
-                    minLen = end - start;
+        while(r<n){
+            if(mp[s[r]] > 0)cnt++;
+            mp[s[r]]--;
+            
+            while(cnt == m){
+                if(r-l+1 < mini){
+                    starti = l;
+                    mini = r-l+1;
                 }
-
-                if (map[s[start++]]++ == 0) {
-                    count++;
-                }
+                mp[s[l]]++;
+                if(mp[s[l]] >0)cnt--;
+                l++;
             }
+            
+            r++;
         }
-
-        return minLen == INT_MAX ? "" : s.substr(startIndex, minLen);
+        
+        if(starti == -1)return "";
+        for(int i = starti;i<starti+mini;i++){
+            ans+=s[i];
+        }
+        
+        return ans;
     }
 };
