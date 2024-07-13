@@ -4,13 +4,12 @@ public:
         int n = nums.size();
         
         for(int i = 0;i<n;i++){
-            for(int j = i+1;j<n;j++){
-                swap(nums[i][j],nums[j][i]);
+            for(int j = 0;j<n;j++){
+                if(i!=j && i>j){
+                    swap(nums[i][j],nums[j][i]);
+                }
             }
         }
-        
-        for(int i = 0;i<n;i++){
-            reverse(nums[i].begin(),nums[i].end());
-        }
+        for(int i = 0;i<n;i++)reverse(nums[i].begin(),nums[i].end());
     }
 };
