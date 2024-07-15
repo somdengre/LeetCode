@@ -7,11 +7,10 @@ public:
         int ans = -1;
         while(low<=high){
             int mid = (low+high)/2;
-            
             if(nums[mid]>=k){
                 ans = mid;
-                high  = mid-1;
-            }else {
+                high = mid-1;
+            }else{
                 low = mid+1;
             }
         }
@@ -19,6 +18,7 @@ public:
         if(ans == -1){
             return n;
         }
-        else return ans;
+        
+        return ans;
     }
 };
