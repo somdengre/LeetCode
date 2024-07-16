@@ -4,7 +4,11 @@ public:
         long long hours = 0;
         
         for(int i = 0;i<nums.size();i++){
-            hours +=(nums[i] + k - 1) / k;
+            if(nums[i]%k == 0){
+                hours+=nums[i]/k;
+            }else{
+                hours+=(nums[i]/k+1);
+            }
         }
         return hours;
     }
