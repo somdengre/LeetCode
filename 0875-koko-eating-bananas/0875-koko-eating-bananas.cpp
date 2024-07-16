@@ -1,34 +1,31 @@
 class Solution {
 public:
-    long long f(vector<int>&nums,int mid){
-        long long time = 0;
+    long long f(vector<int>nums,int k){
+        long long hours = 0;
         
         for(int i = 0;i<nums.size();i++){
-            time+= (nums[i] + mid - 1) / mid;;
+            hours +=(nums[i] + k - 1) / k;
         }
-        
-        return time;
+        return hours;
     }
     int minEatingSpeed(vector<int>& nums, int h) {
         int n = nums.size();
-        int maxi = INT_MIN;
-        int ans = 0;
-        for(int i = 0;i<n;i++){
-            maxi = max(maxi,nums[i]);
-        }
-        
         int low = 1;
-        int high = maxi;
-        
+        int high = 0;
+        for(int i = 0;i<n;i++){
+            high = max(high,nums[i]);
+        }
+        int ans = 0;
         while(low<=high){
             int mid = (low+high)/2;
-            long long time = f(nums,mid);
-            if(time<=h){
+            long long hours = f(nums,mid);
+            if(hours <= h){
                 ans = mid;
                 high = mid-1;
             }else{
                 low = mid+1;
             }
+            
         }
         
         return ans;
