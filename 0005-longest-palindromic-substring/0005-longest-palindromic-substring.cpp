@@ -1,12 +1,11 @@
 class Solution {
 public:
-    bool solve(int i,int j,string&s,vector<vector<int>>&dp){
+    bool f(string &s,int i,int j,vector<vector<int>>&dp){
         if(i>=j)return 1;
-        
         if(dp[i][j] != -1)return dp[i][j];
         
         if(s[i] == s[j]){
-            return dp[i][j] = solve(i+1,j-1,s,dp);
+            return dp[i][j] = f(s,i+1,j-1,dp);
         }else{
             return dp[i][j] = 0;
         }
@@ -14,16 +13,14 @@ public:
     string longestPalindrome(string s) {
         int n = s.length();
         vector<vector<int>>dp(n,vector<int>(n,-1));
-        
-        if(n<=1)return s;
-        int len = -1;
-        int start = 0;
+        int start = -1;
+        int len = 0;
         for(int i = 0;i<n;i++){
             for(int j = i;j<n;j++){
-                if(solve(i,j,s,dp)){
+                if(f(s,i,j,dp)){
                     if(j-i+1 > len){
                         start = i;
-                        len = j-i+1;
+                        len = max(len,j-i+1);
                     }
                 }
             }
