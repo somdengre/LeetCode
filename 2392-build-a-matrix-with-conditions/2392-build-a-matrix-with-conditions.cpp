@@ -1,6 +1,5 @@
 class Solution {
 public:
-    //topological sort using BFS (Kahn's algorithm)
     static vector<int> topo_sort(int k, vector<vector<int>>& conditions){
         vector<int> deg(k+1, 0);
         vector<vector<int>> adj(k+1);
@@ -30,7 +29,7 @@ public:
                 }
             }
         }
-        if(count != k) return {};// has cycle
+        if(count != k) return {};
         else return ans ;
 
     }
@@ -48,14 +47,12 @@ public:
         auto order_row=topo_sort(k, rowConditions);
         auto order_col=topo_sort(k, colConditions);
 
-    //  print out the ordering in row & in col
-    //    print(order_row), print(order_col);
+    
 
         if (order_row.empty()|| order_col.empty())
-            return {};// some conflict
+            return {};
 
         vector<vector<int>> arr(k, vector<int>(k));
-        // Find pos for x where 1<=x<=k
         vector<int> pos_i(k+1, -1), pos_j(k+1, -1);
         for(int i=0; i<k; i++){
             pos_i[order_row[i]]=i;
