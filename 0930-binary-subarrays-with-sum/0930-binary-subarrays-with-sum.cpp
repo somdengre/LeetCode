@@ -1,26 +1,27 @@
 class Solution {
 public:
-    int f(vector<int>&nums,int goal){
-        if(goal<0)return 0;
+    int f(vector<int>&nums,int k){
+        if(k<0)return 0;
         int n = nums.size();
-        int l = 0,r = 0,sum = 0,cnt = 0;
-        
-        while(r<n){
-            sum+=nums[r];
-            
-            if(sum>goal){
-                while(sum>goal){
-                    sum-=nums[l];
-                    l++;
+        int i = 0,j=0;
+        int sum = 0;
+        int cnt = 0;
+        while(j<n){
+            sum+=nums[j];
+            if(sum>k){
+                while(sum>k){
+                    sum-=nums[i];
+                    i++;
                 }
             }
-            cnt+=(r-l+1);
-            r++;
+            
+            cnt+=(j-i+1);
+            j++;
         }
         
         return cnt;
     }
-    int numSubarraysWithSum(vector<int>& nums, int goal) {
-        return f(nums,goal)-f(nums,goal-1);
+    int numSubarraysWithSum(vector<int>& nums, int k) {
+        return f(nums,k)-f(nums,k-1);
     }
 };
