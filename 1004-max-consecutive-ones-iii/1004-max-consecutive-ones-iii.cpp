@@ -15,13 +15,12 @@ public:
                 maxi = max(maxi,j-i+1);
             }
             if(cnt>k){
-                while(cnt>k){
-                    if(nums[i] == 0){
-                        cnt--;
-                    }
-                    i++;
+                if(nums[i] == 0){
+                    cnt--;
                 }
+                i++;
             }
+            
             j++;
         }
         
