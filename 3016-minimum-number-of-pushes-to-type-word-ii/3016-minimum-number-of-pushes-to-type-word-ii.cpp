@@ -2,29 +2,27 @@ class Solution {
 public:
     int minimumPushes(string s) {
         int n = s.length(),ans = 0;
-        map<char,int>mp;
-        for(int i = 0;i<n;i++){
-            mp[s[i]]++;
-        }
-        priority_queue<pair<int,char>>pq;
+        vector<int>temp(26,0);
         
-        for(auto it: mp){
-            pq.push({it.second,it.first});
+        for(int i = 0;i<n;i++){
+            temp[s[i]-'a']++;
         }
-        int p = 1,cnt = 0;
-        while(!pq.empty()){
-            mp[pq.top().second] = p;
-            cnt++;
-            pq.pop();
-            if(cnt == 8){
-                p++;
-                cnt = 0;
+        
+        sort(temp.begin(),temp.end());
+        reverse(temp.begin(),temp.end());
+        
+        for(int i = 0;i<26;i++){
+            if(i<8){
+                ans+=temp[i]*1;
+            }else if(i<16){
+                ans+=temp[i]*2;
+            }else if(i<24){
+                ans+=temp[i]*3;
+            }else{
+                ans+=temp[i]*4;
             }
         }
         
-        for(int i = 0;i<n;i++){
-            ans+=mp[s[i]];
-        }
         return ans;
     }
 };
