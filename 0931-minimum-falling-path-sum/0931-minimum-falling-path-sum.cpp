@@ -14,25 +14,27 @@ public:
     int minFallingPathSum(vector<vector<int>>& nums) {
         int n = nums.size();
         
-        vector<vector<int>>dp(n,vector<int>(n,-1));
+        vector<int>prev(n,-1);
         for(int j = 0;j<n;j++){
-            dp[0][j] = nums[0][j];
+            prev[j] = nums[0][j];
         }
         
         for(int i  = 1;i<n;i++){
+            vector<int>temp(n,-1);
             for(int j = 0;j<n;j++){
                 int down = INT_MAX,left = INT_MAX,right = INT_MAX;
-                if(i>0)down = nums[i][j] + dp[i-1][j];
-                if(i>0 && j<n-1)right = nums[i][j] + dp[i-1][j+1];
-                if(i>0 && j>0)left = nums[i][j] + dp[i-1][j-1];
+                if(i>0)down = nums[i][j] + prev[j];
+                if(i>0 && j<n-1)right = nums[i][j] + prev[j+1];
+                if(i>0 && j>0)left = nums[i][j] + prev[j-1];
         
-                dp[i][j] = min(down,min(left,right));
+                temp[j] = min(down,min(left,right));
             }
+            prev = temp;
         }
         
         int mini = INT_MAX;
         for(int j = 0;j<n;j++){
-            mini = min(mini,dp[n-1][j]);
+            mini = min(mini,prev[j]);
         }
         
         return mini;
