@@ -17,21 +17,25 @@ public:
         int n = nums.size();
         int m = nums[0].size();
         
-        vector<vector<int>>dp(n,vector<int>(m,-1));
-        dp[0][0] = nums[0][0];
+        vector<int>prev(m,0);
         
         for(int i = 0;i<n;i++){
+            vector<int>temp(m,0);
             for(int j = 0;j<m;j++){
-                if(i == 0 && j == 0)continue;
+                if(i == 0 && j == 0){
+                    temp[0] = nums[0][0];
+                    continue;
+                }
                 int left = 1e9;
-                if(j>0)left = nums[i][j]+ dp[i][j-1];
+                if(j>0)left = nums[i][j]+ temp[j-1];
                 int up = 1e9;
-                if(i>0)up = nums[i][j] + dp[i-1][j];
+                if(i>0)up = nums[i][j] + prev[j];
         
-                dp[i][j] = min(left,up);
+                temp[j] = min(left,up);
             }
+            prev = temp;
         }
         
-        return dp[n-1][m-1];
+        return prev[m-1];
     }
 };
