@@ -19,24 +19,27 @@ public:
     int coinChange(vector<int>& nums, int k) {
         
         int n = nums.size();
-        vector<vector<int>>dp(n,vector<int>(k+1,0));
+        // vector<vector<int>>dp(n,vector<int>(k+1,0));
+        vector<int>prev(k+1,0);
         for(int i = 0 ;i<=k;i++){
             if(i%nums[0] == 0){
-                dp[0][i] = i/nums[0];
+                prev[i] = i/nums[0];
             }else{
-                dp[0][i] = 1e8;
+                prev[i] = 1e8;
             }
         }
         
         for(int i = 1;i<n;i++){
+            vector<int>temp(k+1,0);
             for(int j = 0;j<=k;j++){
                 int pick = INT_MAX;
-                if(nums[i]<=j)pick = 1+dp[i][j-nums[i]];
-                int npick = dp[i-1][j];
-                dp[i][j] = min(pick,npick);
+                if(nums[i]<=j)pick = 1+temp[j-nums[i]];
+                int npick = prev[j];
+                temp[j] = min(pick,npick);
             }
+            prev = temp;
         }
-        int ans = dp[n-1][k];
+        int ans = prev[k];
         if(ans>=1e8){
             return -1;
         }
