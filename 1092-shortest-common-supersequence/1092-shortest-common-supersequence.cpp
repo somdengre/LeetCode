@@ -21,10 +21,9 @@ public:
             }
         }
         
+        int i = n, j = m;
         string ans = "";
-        int i = n;
-        int j = m;
-        while(i>0 && j>0){
+        while(i> 0 && j>0){
             if(s[i-1] == t[j-1]){
                 ans+=s[i-1];
                 i--;
@@ -40,6 +39,7 @@ public:
         while(i>0){
             ans+=s[i-1];
             i--;
+            
         }
         
         while(j>0){
