@@ -4,19 +4,21 @@ public:
         int n = s.length();
         string t = s;
         reverse(t.begin(),t.end());
-        vector<vector<int>>dp(n+1,vector<int>(n+1,0));
+        vector<int>prev(n+1,0);
         
         for(int i = 1;i<=n;i++){
+            vector<int>temp(n+1,0);
             for(int j = 1;j<=n;j++){
                 if(s[i-1] == t[j-1]){
-                    dp[i][j] = 1 + dp[i-1][j-1];
+                    temp[j] = 1 + prev[j-1];
                 }else{
-                    dp[i][j] = max(dp[i-1][j],dp[i][j-1]);
+                    temp[j] = max(prev[j],temp[j-1]);
                 }
             }
+            prev = temp;
         }
         
-        int maxi = dp[n][n];
+        int maxi = prev[n];
         return n-maxi;
     }
 };
