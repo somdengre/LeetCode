@@ -4,14 +4,16 @@ public:
         int n = nums.size();
         int ind = -1;
         
+        
         for(int i = n-2;i>=0;i--){
             if(nums[i]<nums[i+1]){
                 ind = i;
                 break;
             }
         }
-        if(ind == -1){
-            reverse(nums.begin(),nums.end());
+        
+        if(ind  == -1){
+            sort(nums.begin(),nums.end());
             return;
         }
         
@@ -22,7 +24,7 @@ public:
             }
         }
         
-        reverse(nums.begin()+ind+1,nums.end());
+        sort(nums.begin()+ind+1,nums.end());
         return;
     }
 };
