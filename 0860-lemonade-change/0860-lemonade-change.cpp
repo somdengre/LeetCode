@@ -8,18 +8,19 @@ public:
             if(nums[i] == 5){
                 five++;
             }else if(nums[i] == 10){
-                if(five>=1){
+                if(five>0){
                     five--;
                     ten++;
                 }else{
                     return false;
                 }
             }else{
-                if(ten>=1 && five>=1){
-                    ten--;
+                if(five>0 && ten>0){
                     five--;
-                }else if(five>=3){
+                    ten--;
+                }else if(five>2){
                     five-=3;
+                    
                 }else{
                     return false;
                 }
