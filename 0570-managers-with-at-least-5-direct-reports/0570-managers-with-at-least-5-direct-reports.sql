@@ -1,1 +1,1 @@
-select name from employee as e where 5 <= (select count(*) from employee as r where e.id = r.managerId);
+select w1.name from Employee as w1 where 5<=(select count(*) from Employee as w2 where w1.id = w2.managerId and w1.id != w2.id);
