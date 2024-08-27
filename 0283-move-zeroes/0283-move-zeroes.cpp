@@ -6,10 +6,14 @@ public:
         
         while(j<n){
             if(nums[j] != 0){
-                swap(nums[i],nums[j]);
+                nums[i] = nums[j];
                 i++;
             }
             j++;
+        }
+        while(i<n){
+            nums[i] = 0;
+            i++;
         }
     }
 };
