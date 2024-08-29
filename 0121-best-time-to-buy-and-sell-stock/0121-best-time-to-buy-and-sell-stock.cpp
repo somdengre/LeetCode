@@ -2,14 +2,13 @@ class Solution {
 public:
     int maxProfit(vector<int>& nums) {
         int n = nums.size();
-        int maxi = INT_MIN;
+        int ans = 0;
         int last = nums[0];
-        for(int i = 0;i<n;i++){
+        for(int i = 1;i<n;i++){
             int profit = nums[i]-last;
-            maxi = max(profit,maxi);
             last = min(last,nums[i]);
+            ans = max(ans,profit);
         }
-        
-        return maxi;
+        return ans;
     }
 };
