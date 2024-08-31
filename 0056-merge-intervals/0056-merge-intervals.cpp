@@ -1,17 +1,24 @@
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& nums) {
-        int n = nums.size();
         vector<vector<int>>ans;
         sort(nums.begin(),nums.end());
-        for(int i = 0;i<n;i++){
-            if(!ans.empty() && ans.back()[1] >= nums[i][0]){
-                ans.back()[1] = max(ans.back()[1],nums[i][1]);
-            }else{
-                ans.push_back(nums[i]);
+        int i = 0;
+        int n = nums.size();
+        int mini = INT_MAX;
+        int maxi = INT_MIN;
+        while(i<n){
+            mini = nums[i][0];
+            maxi = nums[i][1];
+            vector<int>temp = {mini,maxi};
+            i++;
+            while(i<n && nums[i][0] <= temp[1] ){
+                temp[0] = min(temp[0],nums[i][0]);
+                temp[1] = max(temp[1],nums[i][1]);
+                i++;
             }
+            ans.push_back(temp);
         }
-        
         return ans;
     }
 };
