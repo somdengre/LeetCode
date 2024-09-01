@@ -1,44 +1,41 @@
 class Solution {
 public:
-    int f(vector<int>&nums,int mid,int k){
+    bool f(vector<int>&nums,int mid,int m,int k){
         int p = 0;
         int cnt = 0;
         for(int i = 0;i<nums.size();i++){
-            if(nums[i]<=mid){
+            if(nums[i] <= mid){
                 cnt++;
             }else{
+                p += (cnt/k);
                 cnt = 0;
             }
-            
-            if(cnt == k){
-                p+=1;
-                cnt = 0;
-            }
-            
         }
+        p += (cnt/k);
         
-        return p;
+        return p>=m;
     }
     int minDays(vector<int>& nums, int m, int k) {
         int n = nums.size();
+        if(m > n/k)return -1;
+         int mini = INT_MAX;
+        int maxi = INT_MIN;
         int ans = -1;
-        if(n/k<m)return -1;
-        int low = INT_MAX;
-        int high = INT_MIN;
-        
         for(int i = 0;i<n;i++){
-            low = min(low,nums[i]);
-            high = max(high,nums[i]);
+            mini = min(mini,nums[i]);
+            maxi = max(maxi,nums[i]);
         }
         
+        int low = mini;
+        int high = maxi;
         while(low<=high){
-            int mid = (low+high)/2;
-            int p = f(nums,mid,k);
-            if(p >= m){
-               ans = mid;
-               high = mid-1; 
+            int mid = low+(high-low)/2;
+            
+            if(f(nums,mid,m,k)){
+                ans = mid;
+                high = mid-1;
             }else{
-                low=mid+1;
+                low = mid+1;
             }
         }
         
