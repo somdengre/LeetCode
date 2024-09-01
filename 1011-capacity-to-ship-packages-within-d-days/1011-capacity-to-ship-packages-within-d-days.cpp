@@ -1,37 +1,33 @@
 class Solution {
 public:
-    int f(vector<int>&nums,int capacity){
+    int f(vector<int>&nums,int mid,int d){
+        int cnt = 0;
         int days = 1;
-        int load = 0;
         
         for(int i = 0;i<nums.size();i++){
-            if(nums[i]+load <= capacity){
-                load+=nums[i];
+            if(cnt+nums[i] <= mid){
+                cnt+=nums[i];
             }else{
-                days+=1;
-                load = nums[i];
+                cnt = nums[i];
+                days++;
             }
         }
         
-        return days;
+        return days<=d;
     }
-    int shipWithinDays(vector<int>& nums, int days) {
+    int shipWithinDays(vector<int>& nums, int d) {
         int n = nums.size();
-        int maxi = INT_MIN;
-        int sum = 0;
+        int low = nums[0];
+        int high = 0,ans = 0;
         
         for(int i = 0;i<n;i++){
-            sum+=nums[i];
-            maxi =max(maxi,nums[i]);
+            low = max(low,nums[i]);
+            high += nums[i];
         }
-        int ans = 0;
-        int high = sum;
-        int low =  maxi;
         
         while(low<=high){
             int mid = (low+high)/2;
-            int nOfDays = f(nums,mid);
-            if(nOfDays<=days){
+            if(f(nums,mid,d)){
                 ans = mid;
                 high = mid-1;
             }else{
@@ -40,6 +36,5 @@ public:
         }
         
         return ans;
-        
     }
 };
