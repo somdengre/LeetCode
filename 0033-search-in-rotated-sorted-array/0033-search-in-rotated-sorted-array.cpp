@@ -1,24 +1,21 @@
 class Solution {
 public:
-    int search(vector<int>& nums, int k) {
-        int ans = -1;
+    int search(vector<int>& nums, int x) {
         int n = nums.size();
-        int low = 0;
-        int high = n-1;
+        int low = 0,high = n-1;
         
         while(low<=high){
             int mid = (low+high)/2;
-            if(nums[mid] == k){
+            if(nums[mid] == x){
                 return mid;
-            }
-            if(nums[mid] >=nums[low]){
-                if(nums[mid]>=k && nums[low]<=k){
-                    high = mid -1;
-                } else{
+            }else if(nums[mid] >= nums[low]){
+                if(nums[mid] >= x && nums[low] <= x){
+                    high = mid-1;
+                }else{
                     low = mid+1;
-                }
+                } 
             }else{
-                if(nums[mid]<=k && nums[high]>=k){
+                if(nums[mid] <=x && nums[high] >= x){
                     low = mid+1;
                 }else{
                     high = mid-1;
@@ -26,6 +23,6 @@ public:
             }
         }
         
-        return ans;
+        return -1;
     }
 };
