@@ -1,39 +1,35 @@
 class Solution {
 public:
-    vector<int> searchRange(vector<int>& nums, int k) {
+    vector<int> searchRange(vector<int>& nums, int x) {
+        int first = -1,second = -1;
         int n = nums.size();
-        int low = 0;
-        int high = n-1;
-        
-        int first = -1;
-        int last = -1;
+        int low = 0,high = n-1;
         
         while(low<=high){
             int mid = (low+high)/2;
-            
-            if(nums[mid]>=k){
+            if(nums[mid] <= x){
                 first = mid;
-                high = mid-1;
-            }else{
                 low = mid+1;
+            }else{
+                high = mid-1;
             }
         }
         
-        low = 0;
-        high = n-1;
+        low = 0,high = n-1; 
         while(low<=high){
             int mid = (low+high)/2;
-            if(nums[mid]>k){
-                last = mid;
+            if(nums[mid] >= x){
+                second = mid;
                 high = mid-1;
             }else{
                 low = mid+1;
             }
         }
         
-        if(first == -1 || nums[first] != k)return {-1,-1};
-        if(last == -1)last = n;
-        return {first,last-1};
+        if(first == -1 || second == -1)return {-1,-1};
+        if(nums[first] != x || nums[second] != x)return {-1,-1};
         
+        return {second,first};
+    
     }
 };
