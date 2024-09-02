@@ -1,8 +1,9 @@
 class Solution {
 public:
-    bool f(string &s,int i,int j,vector<vector<int>>&dp){
+    int f(string &s,int i,int j,vector<vector<int>>&dp){
         if(i>=j)return 1;
         if(dp[i][j] != -1)return dp[i][j];
+        
         
         if(s[i] == s[j]){
             return dp[i][j] = f(s,i+1,j-1,dp);
@@ -17,10 +18,10 @@ public:
         int len = 0;
         for(int i = 0;i<n;i++){
             for(int j = i;j<n;j++){
-                if(f(s,i,j,dp)){
+                if(f(s,i,j,dp) > 0){
                     if(j-i+1 > len){
                         start = i;
-                        len = max(len,j-i+1);
+                        len = j-i+1;
                     }
                 }
             }
