@@ -1,48 +1,43 @@
 class Solution {
 public:
-    bool f(int i, int j, vector<vector<char>>& nums, vector<vector<int>>& vis, string& k, int t) {
-        int n = nums.size();
-        int m = nums[0].size();
-        if (t == k.length()) {
+    bool dfs(int i,int j,vector<vector<char>>&nums,vector<vector<int>>&vis,string s,int p){
+        if(p == s.length()){
             return true;
         }
-
-        // Check boundaries and character match
-        if (i < 0 || j < 0 || i >= n || j >= m || vis[i][j] == 1 || nums[i][j] != k[t]) {
+         if (i < 0 || i >= nums.size() || j < 0 || j >= nums[0].size() || nums[i][j] != s[p] || vis[i][j] == 1) {
             return false;
         }
-
-        // Mark the current cell as visited
+        int n = nums.size();
+        int m = nums[0].size();
         vis[i][j] = 1;
-
-        // Explore all four possible directions
-        if (f(i + 1, j, nums, vis, k, t + 1) ||
-            f(i - 1, j, nums, vis, k, t + 1) ||
-            f(i, j + 1, nums, vis, k, t + 1) ||
-            f(i, j - 1, nums, vis, k, t + 1)) {
-            return true;
+        
+        int delrow[] = {-1,0,1,0};
+        int delcol[] = {0,1,0,-1};
+        
+        for(int z = 0;z<4;z++){
+            int nrow = i+delrow[z];
+            int ncol = j+delcol[z];
+            if(dfs(nrow,ncol,nums,vis,s,p+1))return true;
         }
-
-        // Backtrack
+        
         vis[i][j] = 0;
         return false;
     }
-
-    bool exist(vector<vector<char>>& nums, string k) {
+    bool exist(vector<vector<char>>& nums, string s) {
         int n = nums.size();
         int m = nums[0].size();
-        vector<vector<int>> vis(n, vector<int>(m, 0));
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (nums[i][j] == k[0]) {
-                    if (f(i, j, nums, vis, k, 0)) {
+        vector<vector<int>>vis(n,vector<int>(m,0));
+        
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
+                if(nums[i][j] == s[0]){
+                    if(dfs(i,j,nums,vis,s,0) == true){
                         return true;
                     }
                 }
             }
         }
-
+        
         return false;
     }
 };
