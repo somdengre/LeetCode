@@ -1,25 +1,22 @@
 class Solution {
 public:
+    static bool comp(vector<int>numsa,vector<int>numsb){
+        return numsa[1] < numsb[1];
+    }
     int eraseOverlapIntervals(vector<vector<int>>& nums) {
-        
         int n = nums.size();
-        for(int i = 0;i<n;i++){
-            swap(nums[i][0],nums[i][1]);
-        }
+        sort(nums.begin(),nums.end(),comp);
         
-        sort(nums.begin(),nums.end());
         int last = INT_MIN;
         int cnt = 0;
         
         for(int i = 0;i<n;i++){
-            if(last <= nums[i][1]){
-                last = nums[i][0];
-            }else{
+            if(nums[i][0] >= last){
                 cnt++;
+                last = nums[i][1];
             }
-            
         }
         
-        return cnt;
+        return n-cnt;
     }
 };
