@@ -9,28 +9,27 @@
  * };
  */
 class Solution {
-private: 
-    int gcd(int a, int b){
-        if(b==0){
-            return a;
-        }
-        return gcd(b, a%b);
-    }
 public:
+    int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
     ListNode* insertGreatestCommonDivisors(ListNode* head) {
-        ListNode* curr=head->next;
-        ListNode* prev=head;
-        if(head==NULL){
-            return NULL;
+        ListNode* curr = head->next;
+        ListNode* temp = head;
+        
+        while(curr){
+            ListNode* newNode = new ListNode(gcd(curr->val,temp->val));
+            temp->next = newNode;
+            newNode->next = curr;
+            temp = curr;
+            curr = curr->next;
         }
-        while(curr!=NULL){
-            int node= gcd(prev->val, curr->val);
-            ListNode* gcd= new ListNode(node);
-            prev->next=gcd;
-            gcd->next=curr;
-            prev=curr;
-            curr=curr->next;     
-        }
+        
         return head;
     }
 };
