@@ -1,29 +1,23 @@
 class Solution {
 public:
-    int countConsistentStrings(string a, vector<string>& words) {
-        set<char> s;
-        
-
-        int ans=0;
-        s.insert(a.begin(),a.end());
-        
-        
-        for(int j=0;j<words.size();j++){
-            for(int i=0;i<words[j].length();i++){
-                // cout<<words[j][i]<<" ";
-                if(s.find(words[j][i])==s.end()){
+    int countConsistentStrings(string t, vector<string>& nums) {
+        map<char,int>mp;
+        for(int i = 0;i<t.length();i++){
+            mp[t[i]]++;
+        }
+        int n = nums.size(),cnt = 0;
+        for(int i = 0;i<n;i++){
+            string temp = nums[i];
+            int m = temp.length(),fl = 0;
+            for(int j = 0;j<m;j++){
+                if(mp.find(temp[j]) == mp.end()){
+                    fl = 1;
                     break;
                 }
-                if(i==words[j].length()-1){
-                ans++;
-                }
             }
-            // cout<<endl;
+            if(fl == 0)cnt++;
         }
         
-        return ans;
-        
-        
-        
+        return cnt;
     }
 };
