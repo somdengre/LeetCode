@@ -3,37 +3,34 @@ public:
     int mod = 1e9+7;
     int sumSubarrayMins(vector<int>& nums) {
         int n = nums.size();
-        vector<int>left(n,0),right(n,0);
-        stack<pair<int,int>>sleft,sright;
-        
-        for(int i =0;i<n;i++){
-            int cnt = 1;
-            while(!sleft.empty() && sleft.top().first > nums[i]){
-                cnt+=sleft.top().second;
-                sleft.pop();
+        vector<int>left(n,-1),right(n,n);
+        stack<pair<int,int>>st;
+        for(int i = 0;i<n;i++){
+            while(!st.empty() && st.top().first >= nums[i]){
+                st.pop();
             }
-            
-            sleft.push({nums[i],cnt});
-            left[i] = cnt;
+            if(!st.empty()){
+                left[i] = st.top().second;
+            }
+            st.push({nums[i],i});
         }
-        
+        while(!st.empty())st.pop();
         for(int i = n-1;i>=0;i--){
-            int cnt = 1;
-            while(!sright.empty() && sright.top().first >= nums[i]){
-                cnt+=sright.top().second;
-                sright.pop();
+            while(!st.empty() && st.top().first > nums[i]){
+                st.pop();
             }
-            
-            sright.push({nums[i],cnt});
-            right[i] = cnt;
+            if(!st.empty()){
+                right[i] = st.top().second;
+            }
+            st.push({nums[i],i});
         }
-         long long ans = 0;
-        for (int i = 0; i < n; i++) {
-            long long product = ((long long)nums[i] * left[i] % mod * right[i] % mod) % mod;
-            ans = (ans + product) % mod;
+        int ans = 0;
+        for(int i = 0;i<n;i++){
+            long long leftel = i-left[i];
+            long long  rightel = right[i] - i;
+            ans = (ans + (leftel * rightel % mod) * nums[i] % mod) % mod;
         }
-
-        return ans;
         
+        return ans%mod;
     }
 };
