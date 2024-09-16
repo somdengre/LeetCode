@@ -1,22 +1,59 @@
 class Solution {
 public:
     long long subArrayRanges(vector<int>& nums) {
-        long long maxi = 0;
-        long long mini = 0;
         int n = nums.size();
-        for(int i = 0;i < n;i++){
-            long long ma = INT_MIN;
-            long long mi = INT_MAX;
-            for(int j = i;j<n;j++){
-                ma = max((int)ma,nums[j]);
-                mi = min((int)mi,nums[j]);
-                
-                maxi+=ma;
-                mini +=mi;
+        long long largest = 0,smallest = 0;
+        vector<int>left(n,-1),right(n,n);
+        stack<pair<int,int>>st;
+        
+        for(int i = 0;i<n;i++){
+            while(!st.empty() && st.top().first > nums[i]){
+                    st.pop();
             }
-            
+            if(!st.empty())left[i] = st.top().second;
+            st.push({nums[i],i});
+        }
+        while(!st.empty())st.pop();
+        for(int i = n-1;i>=0;i--){
+            while(!st.empty() && st.top().first >= nums[i]){
+                    st.pop();
+            }
+            if(!st.empty())right[i] = st.top().second;
+            st.push({nums[i],i});
+        }
+        while(!st.empty())st.pop();
+        for(int i = 0;i<n;i++){
+            int lefts = i-left[i];
+            int rights = right[i]-i;
+            long long mul = lefts*rights;
+            smallest+=(mul * nums[i]);
         }
         
-        return maxi-mini;
+        vector<int>leftr(n,-1),rightr(n,n);
+        
+        for(int i = 0;i<n;i++){
+            while(!st.empty() && st.top().first < nums[i]){
+                st.pop();
+            }
+            if(!st.empty())leftr[i] = st.top().second;
+            st.push({nums[i],i});
+        }
+        while(!st.empty())st.pop();
+        for(int i = n-1;i>=0;i--){
+            while(!st.empty() && st.top().first <= nums[i]){
+                    st.pop();
+            }
+            if(!st.empty())rightr[i] = st.top().second;
+            st.push({nums[i],i});
+        }
+        
+        for(int i = 0;i<n;i++){
+            int lefts = i-leftr[i];
+            int rights = rightr[i]-i;
+            long long mul = lefts*rights;
+            largest+=(mul* nums[i]);
+        }
+        
+        return largest-smallest;
     }
 };
