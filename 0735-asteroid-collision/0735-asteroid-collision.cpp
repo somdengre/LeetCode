@@ -5,13 +5,13 @@ public:
         stack<int>st;
         
         for(int i = 0;i<n;i++){
-            if(nums[i] > 0 || st.empty() ){
+            if( nums[i] > 0 || st.empty() ){
                 st.push(nums[i]);
             }else{
                 while(!st.empty() && st.top() > 0 && st.top() < abs(nums[i])){
                     st.pop();
                 }
-                if(!st.empty() && st.top() == abs(nums[i])){
+                if(!st.empty() && abs(nums[i]) == st.top()){
                     st.pop();
                 }else{
                     if(st.empty() || st.top() < 0){
@@ -20,14 +20,12 @@ public:
                 }
             }
         }
-        
         vector<int>ans;
-        while (!st.empty()) {
+        while(!st.empty()){
             ans.push_back(st.top());
             st.pop();
         }
-        
-        reverse(ans.begin(), ans.end());
+        reverse(ans.begin(),ans.end());
         return ans;
     }
 };
