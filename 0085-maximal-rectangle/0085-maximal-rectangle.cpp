@@ -34,10 +34,12 @@ public:
     }
     int maximalRectangle(vector<vector<char>>& nums) {
         
-        int maxArea = 0;
-        vector<int>height(nums[0].size(),0);
-        for(int i = 0;i<nums.size();i++){
-            for(int j = 0;j<nums[0].size();j++){
+        int ans = 0;
+        int n = nums.size();
+        int m = nums[0].size();
+        vector<int>height(m,0);
+        for(int i = 0;i<n;i++){
+            for(int j = 0;j<m;j++){
                 if(nums[i][j] == '1'){
                     height[j]++;
                 }else{
@@ -45,9 +47,9 @@ public:
                 }
             }
             int area = largestRectangleArea(height);
-            maxArea = max(area,maxArea);
+            ans = max(ans,area);
         }
         
-        return maxArea;
+        return ans;
     }
 };
