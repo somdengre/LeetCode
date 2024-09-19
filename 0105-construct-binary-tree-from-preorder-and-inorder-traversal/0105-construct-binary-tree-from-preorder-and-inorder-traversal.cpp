@@ -11,27 +11,23 @@
  */
 class Solution {
 public:
-    TreeNode* makeTree(vector<int>&preorder,int pstart,int pend,vector<int>&inorder,int instart,int inend,map<int,int>&inmap){
+    TreeNode* f(vector<int>& preorder, vector<int>& inorder,int prestart,int preend,int instart,int inend,map<int,int>&mp){
+        if(prestart > preend || instart > inend)return NULL;
+        TreeNode* root = new TreeNode(preorder[prestart]);
+        int inroot = mp[root->val];
+        int numsleft = inroot-instart;
         
-        if(pstart > pend || instart>inend)return NULL;
-        
-        TreeNode* root = new TreeNode(preorder[pstart]);
-        int inroot = inmap[root->val];
-        int numsLeft = inroot-instart;
-        
-        root->left = makeTree(preorder,pstart+1,pstart+numsLeft,inorder,instart,inroot-1,inmap);
-        root->right = makeTree(preorder,pstart+numsLeft+1,pend,inorder,inroot+1,inend,inmap);
+        root->left = f(preorder,inorder,prestart+1,prestart+numsleft,instart,inroot-1,mp);
+        root->right = f(preorder,inorder,prestart+numsleft+1,preend,inroot+1,inend,mp);
         
         return root;
     }
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        map<int ,int>inmap;
-        
+        map<int,int>mp;
         for(int i = 0;i<inorder.size();i++){
-            inmap[inorder[i]] = i;
+            mp[inorder[i]] = i;
         }
-        TreeNode* root = makeTree(preorder,0,preorder.size()-1,inorder,0,inorder.size(),inmap);
+        return f(preorder,inorder,0,preorder.size()-1,0,inorder.size()-1,mp);
         
-        return root;
     }
 };
